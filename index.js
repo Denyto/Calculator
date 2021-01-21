@@ -43,46 +43,51 @@ function numberPress(number) {
 
 function operationPress(oper) {
   localOperationMemory = display.value;
-
   if (MemoryNewNumber && MemoryPendingOperation !== "=") {
     display.value = MemoryCurrentNumber;
   } else {
     MemoryNewNumber = true;
-    if (MemoryPendingOperation === "+") {
-      MemoryCurrentNumber += +localOperationMemory;
-    } else if (MemoryPendingOperation === "-") {
-      MemoryCurrentNumber -= +localOperationMemory;
-    } else if (MemoryPendingOperation === "*") {
-      MemoryCurrentNumber *= +localOperationMemory;
-    } else if (MemoryPendingOperation === "/") {
-      MemoryCurrentNumber /= +localOperationMemory;
-    } else {
-      MemoryCurrentNumber = +localOperationMemory;
-    }
+    switch (MemoryPendingOperation) {
+      case '+':
+        MemoryCurrentNumber += +localOperationMemory;
+        break;
+      case '-':
+        MemoryCurrentNumber -= +localOperationMemory;
+        break;
+      case '*':
+        MemoryCurrentNumber *= +localOperationMemory;
+        break;
+      case '/':
+        MemoryCurrentNumber /= +localOperationMemory;
+        break;
+      default:
+        MemoryCurrentNumber = +localOperationMemory;
+    };
     display.value = MemoryCurrentNumber;
     MemoryPendingOperation = oper;
+  };
+}
+
+function decimal() {
+  let localDecimalMemory = display.value;
+  if (MemoryNewNumber && localDecimalMemory.indexOf(".") === -1) {
+    localDecimalMemory += ".";
+    MemoryNewNumber = false;
+  } else if (localDecimalMemory.indexOf(".") === -1) {
+    localDecimalMemory += ".";
+  }
+  display.value = localDecimalMemory;
+}
+
+function clear(id) {
+  if (id === "CE") {
+    MemoryNewNumber = true;
+    display.value = "0";
+  }
+  if (id === "C") {
+    display.value = "0";
+    MemoryNewNumber = true;
+    MemoryCurrentNumber = 0;
+    MemoryPendingOperation = "";
   }
 }
-
- function decimal() {
-   let = localDecimalMemory = display.value;
-if (MemoryNewNumber) {
-  localDecimalMemory += '0.';
-  MemoryNewNumber = false;
-} else if (localDecimalMemory.indexOf('.') === -1) {
-localDecimalMemory += ".";
-}
-display.value = localDecimalMemory;
- }
-
- function clear(id) {
-   if (id === 'CE') {
-MemoryNewNumber = true;
-display.value = "0";
-   } else if (id === 'C') {
-display.value = "0";
-MemoryNewNumber = true;
-MemoryCurrentNumber = 0;
-  MemoryPendingOperation = "";
-   }
- }
