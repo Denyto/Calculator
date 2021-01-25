@@ -8,7 +8,19 @@ let numbers = document.querySelectorAll(".number"),
   MemoryNewNumber = false,
   MemoryPendingOperation = "";
 
-for (i = 0; i < numbers.length; i++) {
+function initNum(array, action) {
+  for (i = 0; i < array.length; i++) {
+    let number = array[i];
+    number.addEventListener("click", function (e) {
+      action(e.target.textContent);
+    });
+  }
+}
+initNum(numbers, numberPress);
+initNum(operations, operationPress);
+initNum(clearBtns, clear);
+
+/*for (i = 0; i < numbers.length; i++) {
   let number = numbers[i];
   number.addEventListener("click", function (e) {
     numberPress(e.target.textContent);
@@ -25,7 +37,7 @@ for (i = 0; i < clearBtns.length; i++) {
   number.addEventListener("click", function (e) {
     clear(e.target.textContent);
   });
-}
+}*/
 decimalBtn.addEventListener("click", decimal);
 
 function numberPress(number) {
@@ -48,24 +60,24 @@ function operationPress(oper) {
   } else {
     MemoryNewNumber = true;
     switch (MemoryPendingOperation) {
-      case '+':
+      case "+":
         MemoryCurrentNumber += +localOperationMemory;
         break;
-      case '-':
+      case "-":
         MemoryCurrentNumber -= +localOperationMemory;
         break;
-      case '*':
+      case "*":
         MemoryCurrentNumber *= +localOperationMemory;
         break;
-      case '/':
+      case "/":
         MemoryCurrentNumber /= +localOperationMemory;
         break;
       default:
         MemoryCurrentNumber = +localOperationMemory;
-    };
+    }
     display.value = MemoryCurrentNumber;
     MemoryPendingOperation = oper;
-  };
+  }
 }
 
 function decimal() {
@@ -73,7 +85,7 @@ function decimal() {
   if (MemoryNewNumber && localDecimalMemory.indexOf(".") === -1) {
     localDecimalMemory += ".";
     MemoryNewNumber = false;
-  } else if (localDecimalMemory.indexOf(".") === -1) {
+  } if (localDecimalMemory.indexOf(".") === -1) {
     localDecimalMemory += ".";
   }
   display.value = localDecimalMemory;
